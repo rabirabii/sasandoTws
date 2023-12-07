@@ -1,0 +1,55 @@
+.container {
+    padding: 0 2rem;
+  
+    h1 {
+      font-size: 2.4rem;
+      text-transform: capitalize;
+      margin-bottom: 1rem;
+    }
+  
+    .playlistsContainer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+  
+      .likedSongsLink {
+        width: 35rem;
+        height: 30rem;
+        text-decoration: none;
+        color: inherit;
+  
+        .likedSongs {
+          border-radius: 1rem;
+          background: linear-gradient(149.46deg, #bff9f0, #e6b7ed 99.16%);
+          padding: 1.5rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+          transition: transform 0.3s ease-in-out;
+  
+          h2 {
+            font-size: 3rem;
+            margin: 0.5rem 0;
+          }
+  
+          p {
+            font-size: 1.4rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+          }
+        }
+  
+        &:hover .likedSongs {
+          transform: translateY(-5px);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+      }
+  
+      .noLikedSongs {
+        font-size: 1.6rem;
+        color: #888;
+        margin-top: 1rem;
+      }
+    }
+  }
+  

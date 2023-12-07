@@ -1,0 +1,140 @@
+.container {
+	position: relative;
+
+	.progress_container {
+		height: 90vh;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.head {
+		position: relative;
+		display: flex;
+		padding: 3rem;
+		background-color: var(black);
+
+		.head_gradient {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			left: 0;
+			top: 0;
+			background: linear-gradient(
+			67.37deg,
+			#f7f8f9 29.63%,
+				#e2eff7 51.55%,
+				rgb(206, 235, 248) 90.85%
+			  );	}
+			background-image: url(''); /* Initially set to an empty string */
+		.backgroundImg {
+			width: 100%;
+			max-width: 300px;
+			height: auto;
+			box-shadow: 0 4px 20px 	rgb(124 58 237);
+			z-index: 9999;
+		}
+        .playlist_info {
+			align-self: flex-end;
+			margin-left: 2rem;
+			z-index: 9999;
+			
+			.artist_avatar {
+				width: 50px; /* Adjust size as needed */
+				height: 50px; /* Adjust size as needed */
+				border-radius: 50%; /* Makes the image circular */
+				overflow: hidden; /* Clips the image to the specified border-radius */
+				margin-right: 1.5rem; /* Add spacing between avatar and text */
+			  }
+			  
+			  .avatar_img {
+				width: 100%; /* Fills the container */
+				height: 100%; /* Fills the container */
+				object-fit: cover; /* Scales the image proportionally */
+			  }
+			  
+			  .default_avatar {
+				width: 50px; /* Adjust size as needed */
+				height: 50px; /* Adjust size as needed */
+				border-radius: 50%; /* Makes the placeholder circular */
+				background-color: #ccc; /* Placeholder background color */
+				/* You can add other styles for a default avatar, like text or an icon */
+			  }
+			h1 {
+				font-size: 5rem;
+				margin-bottom: 0.5rem;
+				margin-top: 1rem;
+				font-weight: bold;
+			}
+
+			p {
+				font-size: 1.2rem;
+				margin: 0;
+				text-transform: uppercase;
+				margin-right: 1.5rem; /* Add spacing between items */
+			  }
+			
+			  span {
+				font-size: 1.2rem;
+				margin-top: 0.5rem;
+				margin-right: 1.5rem; /* Add spacing between items */
+				margin-bottom: 1rem;
+			  }
+		}
+
+		.actions_container {
+			position: absolute;
+			top: 0;
+			right: 0;
+			padding: 2rem;
+
+			svg {
+			    width: 2rem;
+      height: 2rem;
+      color: #333;
+			}
+		}
+    }
+    .lyrics {
+      
+  font-size: 1.1rem;
+  line-height: 1.6;
+  padding: 20px; /* Add padding for better readability */
+  overflow-y: auto; /* Add scroll for long lyrics */
+  max-height: 400px; /* Limit the height and add scroll if needed */
+  background-color: #f9f9f9; /* Light background color */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 1px 2px 8px rgb(217 70 239); /* Subtle shadow */
+  border: 1px solid #ddd; /* Border to separate from other content */
+  margin-top: 20px; /* Adjust margin top */
+    }
+    .lyrics h1 {
+        font-size: 1.8rem;
+        margin-bottom: 10px; /* Add some space after the heading */
+        font-weight: bold;
+        color: rgb(124 58 237);
+      }
+    .lyrics p {
+        margin: 0;
+      }
+      
+      .lyricsP {
+
+          margin-bottom: 10px; /* Add space between lines */
+          white-space: pre-line; /* Preserve line breaks */
+      }
+      
+      /* Optional: Style the scroll bar */
+      .lyrics::-webkit-scrollbar {
+        width: 8px;
+      }
+      
+      .lyrics::-webkit-scrollbar-thumb {
+        background-color: #888;
+        border-radius: 4px;
+      }
+      
+      .lyrics::-webkit-scrollbar-track {
+        background-color: #f1f1f1;
+      }
+}

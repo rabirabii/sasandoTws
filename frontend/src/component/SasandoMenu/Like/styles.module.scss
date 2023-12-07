@@ -1,0 +1,17 @@
+.like_btn {
+	.like_filled {
+		color: var(rgba(239, 30, 138, 0.874)(255, 0, 123));
+		width: 2.2rem;
+		height: 2.2rem;
+	}
+
+	.like_outlined {
+		color: var(rgb(107, 104, 104));
+		width: 2.2rem;
+		height: 2.2rem;
+
+		&:hover {
+			color: #f5f9fa;
+		}
+	}
+}
