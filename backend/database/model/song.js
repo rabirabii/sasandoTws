@@ -60,6 +60,9 @@ const songSchema = new mongoose.Schema({
   description: {
     type: String,
   },
+  releasedAt: {
+    type: Date,
+  },
 });
 
 module.exports = mongoose.model("Song", songSchema);

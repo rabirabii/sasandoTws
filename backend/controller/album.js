@@ -36,6 +36,7 @@ router.post(
         musisi: musisi,
         desc: req.body.desc,
         label: req.body.label,
+        releasedAt: req.body.releasedAt,
       };
 
       // Save the album
@@ -56,11 +57,11 @@ router.post(
 
 // Create an Song for certain Album
 router.post(
-  "/:albumId/create-song",
+  "/create-song/:id",
   upload.fields([{ name: "song" }, { name: "img" }]),
   catchAsyncError(async (req, res, next) => {
     try {
-      const { albumId } = req.params;
+      const albumId = req.params.id;
       const album = await Album.findById(albumId);
       if (!album) {
         return next(new ErrorHandler("Album not found", 404));

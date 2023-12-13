@@ -131,8 +131,8 @@ const Navbar = () => {
               </MenuItem>
               {isAuth ? (
                 <>
-                  <MenuItem onClick={() => navigate("/profile")}>
-                    <Link to="/profile">My Profile</Link>
+                  <MenuItem onClick={() => navigate("/sasando/")}>
+                    <Link to="/sasando/">Sasando Page</Link>
                   </MenuItem>
                   <MenuItem onClick={logoutHandler}>
                     <Link>Log Out</Link>
@@ -152,14 +152,6 @@ const Navbar = () => {
           </>
         ) : (
           <ul className="flex gap-4 text-base font-medium">
-            <li onClick={() => navigate("/songs")}>
-              <LibraryMusicOutlinedIcon className="text-purple-800" />
-              <Link to="/songs">Songs</Link>
-            </li>
-            <li onClick={() => navigate("/album")}>
-              <AlbumOutlinedIcon className="text-purple-800" />
-              <Link to="/album">Album</Link>
-            </li>
             <li onClick={() => navigate("/price")}>
               <PaymentOutlinedIcon className="text-purple-800" />
               <Link to="/price">Pricing</Link>
@@ -172,10 +164,7 @@ const Navbar = () => {
               <InfoOutlinedIcon className="text-purple-800" />
               <Link to="/about">About</Link>
             </li>
-            <li onClick={() => navigate("/about")}>
-              <InfoOutlinedIcon className="text-purple-800" />
-              <Link to="/about">{musisi?.name}</Link>
-            </li>
+
             {isAuth ? (
               <>
                 <li className="relative group" onClick={toggleProfileMenu}>
@@ -190,10 +179,10 @@ const Navbar = () => {
                   {isProfileMenuOpen && (
                     <ul className="mt-1 space-y-1 absolute right-0 bg-white border border-gray-300 rounded shadow-md">
                       <li
-                        onClick={() => navigate("/settings")}
+                        onClick={() => navigate("/sasando/")}
                         className="p-2 border-t border-gray-300"
                       >
-                        <Link to="/settings">Settings</Link>
+                        <Link to="/sasando/">Go to Sasando </Link>
                       </li>
                       <li
                         onClick={logoutHandler}

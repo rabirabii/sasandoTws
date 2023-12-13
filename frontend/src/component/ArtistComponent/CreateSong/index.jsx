@@ -19,6 +19,7 @@ const CreateSong = () => {
   const [Genre, setGenre] = useState("");
   const [description, setDescription] = useState("");
   const [lyrics, setLyrics] = useState("");
+  const [releasedAt, setReleasedAt] = useState(null);
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -56,6 +57,10 @@ const CreateSong = () => {
 
     setSong(file);
   };
+  const handleDateChange = (e) => {
+    // Handle changes in the input type date
+    setReleasedAt(new Date(e.target.value));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -70,6 +75,7 @@ const CreateSong = () => {
     newForm.append("artistId", musisi._id);
     newForm.append("description", description);
     newForm.append("lyrics", lyrics);
+    newForm.append("releasedAt", releasedAt.toISOString());
     dispatch(createSong(newForm));
   };
   return (
@@ -159,6 +165,29 @@ const CreateSong = () => {
                   onChange={handleImgChange}
                   className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-sky-300 hover:bg-sky-100"
                 />
+              </div>
+            </div>
+            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <div className="sm:col-span-4">
+                <label
+                  htmlFor="releasedAt"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Released At
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="releasedAt"
+                    type="date"
+                    name="releasedAt"
+                    className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    onChange={handleDateChange}
+                    value={
+                      releasedAt ? releasedAt.toISOString().slice(0, 10) : ""
+                    }
+                    placeholder=""
+                  />
+                </div>
               </div>
             </div>
           </div>

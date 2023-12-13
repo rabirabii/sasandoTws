@@ -34,7 +34,7 @@ function FeaturedArtistSection() {
     <section
       className="featured-artist-area section-padding-100 bg-img bg-overlay bg-fixed"
       style={{
-        backgroundImage: `url(${backend_url_img}${musisi?.backgroundImg})`,
+        backgroundImage: `url(${backend_url_img}${song?.artist?.backgroundImg})`,
         backgroundSize: "cover",
       }}
     >

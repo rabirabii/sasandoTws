@@ -107,6 +107,27 @@ router.get(
     }
   })
 );
+// Get all Songs
+router.get(
+  "/songs/:genre",
+  catchAsyncError(async (req, res, next) => {
+    try {
+      const genre = req.params.genre;
+      const songs = await Song.find({ genre: genre }).exec();
+
+      if (songs.length === 0) {
+        return res.status(404).json({ message: "No songs found" });
+      }
+
+      res.status(200).json({
+        success: true,
+        songs,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error, 500));
+    }
+  })
+);
 // Get single Song
 router.get(
   "/get-song-info/:id",
@@ -141,6 +162,22 @@ router.get(
       res.status(200).json({
         success: true,
         songs,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error, 500));
+    }
+  })
+);
+
+// Get Random song
+router.get(
+  "/random-song",
+  catchAsyncError(async (req, res, next) => {
+    try {
+      const song = await Song.aggregate([{ $sample: { size: 1 } }]);
+      res.status(200).json({
+        success: true,
+        song,
       });
     } catch (error) {
       return next(new ErrorHandler(error, 500));
@@ -321,6 +358,12 @@ router.delete(
         return next(new ErrorHandler("Song not found with id " + songId, 404));
       }
 
+      const artistId = songData.artist;
+      const artist = await Musisi.findById(artistId);
+
+      if (!artist) {
+        return next(new ErrorHandler("Artist not found", 404));
+      }
       // Check if img is an array before using forEach
       if (Array.isArray(songData.img)) {
         songData.img.forEach((imgUrl) => {
@@ -338,6 +381,10 @@ router.delete(
           fs.unlinkSync(filePath); // Delete song file
         });
       }
+
+      // Decrease the totalListeners count of the Artist
+      artist.totalListeners -= songData.totalListener;
+      await artist.save();
 
       // Delete the song from the database
       await Song.findByIdAndDelete(songId);

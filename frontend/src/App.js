@@ -43,6 +43,14 @@ import DetailSong from "./Pages/SasandoPages/DetailSong";
 import Sidebar from "./component/SasandoMenu/Sidebar";
 import Topbar from "./component/SasandoMenu/Topbar";
 import TrackInfoPage from "./Pages/SasandoPages/TrackInfoPage";
+import SearchPage from "./Pages/SasandoPages/Search";
+import SubsPage from "./Pages/Subs";
+import PiechartPage from "./Pages/ArtistPages/PieChartPages";
+import LinechartPage from "./Pages/ArtistPages/LineChartPage";
+import BarChartPage from "./Pages/ArtistPages/BarChartPage";
+import YourAlbumPage from "./Pages/ArtistPages/YourAlbumsPage";
+import CreateSongAlbumPage from "./Pages/ArtistPages/CreateSongAlbum";
+import AlbumPage from "./Pages/SasandoPages/AlbumPages";
 
 const Layout = ({ children }) => {
   const [isSidebar, setIsSidebar] = useState(true);
@@ -133,6 +141,16 @@ function App() {
               }
             />
             <Route
+              path="/album/:id"
+              element={
+                <ProtectedRoute>
+                  <Layout>
+                    <AlbumPage />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/update-profile"
               element={
                 <ProtectedRoute>
@@ -178,6 +196,36 @@ function App() {
                 <ProtectedRoute>
                   <Layout>
                     <TrackInfoPage />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/subs"
+              element={
+                <ProtectedRoute>
+                  <Layout>
+                    <SubsPage />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/search"
+              element={
+                <ProtectedRoute>
+                  <Layout>
+                    <SearchPage />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/search/:searchTerm"
+              element={
+                <ProtectedRoute>
+                  <Layout>
+                    <SearchPage />
                   </Layout>
                 </ProtectedRoute>
               }
@@ -229,6 +277,46 @@ function App() {
             element={
               <ArtistProtectedRoute>
                 <AllSongsPage />
+              </ArtistProtectedRoute>
+            }
+          />
+          <Route
+            path="/pie"
+            element={
+              <ArtistProtectedRoute>
+                <PiechartPage />
+              </ArtistProtectedRoute>
+            }
+          />
+          <Route
+            path="/line"
+            element={
+              <ArtistProtectedRoute>
+                <LinechartPage />
+              </ArtistProtectedRoute>
+            }
+          />
+          <Route
+            path="/bar"
+            element={
+              <ArtistProtectedRoute>
+                <BarChartPage />
+              </ArtistProtectedRoute>
+            }
+          />
+          <Route
+            path="/your-Albums"
+            element={
+              <ArtistProtectedRoute>
+                <YourAlbumPage />
+              </ArtistProtectedRoute>
+            }
+          />
+          <Route
+            path="/createSongForAlbum/:albumId"
+            element={
+              <ArtistProtectedRoute>
+                <CreateSongAlbumPage />
               </ArtistProtectedRoute>
             }
           />

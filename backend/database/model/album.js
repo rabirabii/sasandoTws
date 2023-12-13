@@ -28,7 +28,9 @@ const albumSchema = new mongoose.Schema({
     type: Object,
     ref: "Musisi",
   },
-
+  releasedAt: {
+    type: Date,
+  },
   createdAt: {
     type: Date,
     default: Date.now(),

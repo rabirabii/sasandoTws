@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Sidebar from "../../../component/ArtistComponent/Sidebar";
-import CreateSongForAlbum from "../../../component/ArtistComponent/CreateSongForAlbum";
+import CreateSongForAlbum from "../../../ArtistUI/CreateAlbums";
 
 const CreateSongAlbumPage = () => {
   const [isSidebar, setIsSidebar] = useState(true);

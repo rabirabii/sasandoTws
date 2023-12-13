@@ -39,6 +39,13 @@ const Playlist = () => {
       });
 
       const { data } = response;
+      dispatch({
+        type: "SET_PLAYLIST",
+        payload: {
+          playlist: data.playlist,
+          currentSongIndex: 0, // Set initial index to 0 when fetching playlist
+        },
+      });
       setPlaylist(data.playlist);
       const fetchedSongs = Array.isArray(data.songs) ? data.songs : [];
       setSongs(fetchedSongs);

@@ -37,33 +37,6 @@ const ListedArtist = () => {
 
   const topSixSongs = songs.slice(0, 6);
 
-  const playSong = async (songId) => {
-    try {
-      // Make a request to the play endpoint
-      const response = await fetch(`${server}/song/play/${songId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          withCredentials: true,
-        },
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to play song");
-      }
-
-      // If the request is successful, update the local state or perform any additional actions
-      const audioElement = document.getElementById(`audio-${songId}`);
-      if (audioElement) {
-        // Start playing the audio
-        audioElement.play();
-      }
-    } catch (error) {
-      console.error("Error playing song:", error);
-      // Handle errors if necessary
-    }
-  };
   return (
     <section className="miscellaneous-area section-padding-100-0">
       <div className="container">
@@ -137,7 +110,6 @@ const ListedArtist = () => {
                     >
                       <source src={`${backend_url_song}${song.song}`} />
                     </audio>
-                    <button onClick={() => playSong(song._id)}>Play</button>
                   </div>
                 </div>
               ))}

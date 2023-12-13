@@ -3,6 +3,8 @@ import React, { useContext } from "react";
 import { ColorModeContext, tokens } from "../../../theme";
 import { Avatar, Box, IconButton, InputBase } from "@mui/material";
 import {
+  ArrowLeftOutlined,
+  ArrowRightOutlined,
   DarkModeOutlined,
   NotificationsOutlined,
   Search,
@@ -10,12 +12,16 @@ import {
 } from "@mui/icons-material";
 import { backend_url_img } from "../../../server";
 import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import { purple, teal } from "@mui/material/colors";
 
 const Topbar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette?.mode);
   const colorMode = useContext(ColorModeContext);
   const { user } = useSelector((state) => state.user);
+  const location = useLocation();
+  const navigate = useNavigate();
   return (
     <Box
       display="flex"
@@ -23,15 +29,19 @@ const Topbar = () => {
       p={2}
       border="1px solid transparent"
     >
-      {/* Search bar */}
-      <Box
-        display="flex"
-        backgroundColor={colors.primary[400]}
-        borderRadius="3px"
-      >
-        <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" />
-        <IconButton type="button" sx={{ p: 1 }}>
-          <Search />
+      {/* Previous and Forward Button */}
+      <Box display="flex">
+        {location.pathname !== "/sasando/" && (
+          <IconButton
+            type="button"
+            sx={{ p: 1 }}
+            onClick={() => navigate(-1) || navigate("/sasando/")}
+          >
+            <ArrowLeftOutlined sx={{ fontSize: 30, color: "#6a1b9a" }} />
+          </IconButton>
+        )}
+        <IconButton sx={{ p: 1 }} onClick={() => navigate(+1)}>
+          <ArrowRightOutlined sx={{ fontSize: 30, color: "#6a1b9a" }} />
         </IconButton>
       </Box>
 

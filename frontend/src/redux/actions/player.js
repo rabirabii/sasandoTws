@@ -17,3 +17,16 @@ export const setCurrentSong = (song) => ({
 export const toggleRepeat = () => ({
   type: "TOGGLE_REPEAT",
 });
+
+// New action to sync track progress with localStorage
+export const syncTrackProgress = (progress) => ({
+  type: "SYNC_TRACK_PROGRESS",
+  payload: progress,
+});
+export const playNextSong = () => ({
+  type: "PLAY_NEXT_SONG",
+});
+
+export const playPreviousSong = () => ({
+  type: "PLAY_PREVIOUS_SONG",
+});

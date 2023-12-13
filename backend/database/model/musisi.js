@@ -83,6 +83,4 @@ musisiSchema.methods.comparePassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-const Musisi = mongoose.model("Musisi", musisiSchema);
-
-module.exports = Musisi;
+module.exports = mongoose.model("Musisi", musisiSchema);

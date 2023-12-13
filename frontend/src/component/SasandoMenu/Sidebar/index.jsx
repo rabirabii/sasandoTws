@@ -25,6 +25,7 @@ import {
   LibraryMusic,
   LibraryMusicOutlined,
   MusicNoteOutlined,
+  Search,
 } from "@mui/icons-material";
 import { createPlaylist } from "../../../redux/actions/playlist";
 const Item = ({ title, to, icon, selected, setSelected }) => {
@@ -178,6 +179,13 @@ const Sidebar = () => {
               title="Homepage"
               to="/sasando/"
               icon={<HomeOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Search"
+              to="/search"
+              icon={<Search />}
               selected={selected}
               setSelected={setSelected}
             />

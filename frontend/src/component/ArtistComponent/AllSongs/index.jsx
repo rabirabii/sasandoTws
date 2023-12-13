@@ -81,12 +81,18 @@ const AllSongComponent = () => {
     },
     { field: "name", headerName: "Song Name", minWidth: 180, flex: 1 },
     { field: "artist", headerName: "Artist", minWidth: 180, flex: 1 },
-    { field: "genre", headerName: "Genre", minWidth: 150, flex: 0.7 },
+    { field: "genre", headerName: "Genre", minWidth: 100, flex: 0.7 },
     {
       field: "totalListener",
       headerName: "Total Listener",
       minWidth: 150,
       flex: 0.7,
+    },
+    {
+      field: "revenue",
+      headerName: "Total Revenue",
+      minWidth: 150,
+      flex: 0.5,
     },
     {
       field: "Delete",
@@ -111,12 +117,14 @@ const AllSongComponent = () => {
   const row = [];
   artistSongs &&
     artistSongs.forEach((item) => {
+      const revenue = item.totalListener * 0.012;
       row.push({
         id: item._id,
         name: item.name,
         artist: item.artist.name,
         genre: item.genre,
         totalListener: item.totalListener,
+        revenue: revenue.toFixed(5),
       });
     });
   return (

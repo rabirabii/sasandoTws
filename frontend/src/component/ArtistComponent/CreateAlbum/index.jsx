@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { server } from "../../../server";
 import { createAlbum } from "../../../redux/actions/album";
 import { Button } from "@mui/material";
-
+import ReactDatePicker from "react-date-picker";
 const CreateAlbumComponent = () => {
   const { musisi } = useSelector((state) => state.musisi);
   const navigate = useNavigate();
@@ -20,6 +20,7 @@ const CreateAlbumComponent = () => {
   const [artistSongs, setArtistSongs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [err, setError] = useState(null);
+  const [releasedAt, setReleasedAt] = useState(null);
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -35,6 +36,11 @@ const CreateAlbumComponent = () => {
     setThumbnail(file);
   };
 
+  const handleDateChange = (e) => {
+    // Handle changes in the input type date
+    setReleasedAt(new Date(e.target.value));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -45,6 +51,7 @@ const CreateAlbumComponent = () => {
     formData.append("musisiId", musisi._id);
     formData.append("desc", desc);
     formData.append("label", label);
+    formData.append("releasedAt", releasedAt.toISOString());
     dispatch(createAlbum(formData));
   };
 
@@ -141,7 +148,27 @@ const CreateAlbumComponent = () => {
             </div>
           </div>
         </div>
-
+        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+          <div className="sm:col-span-4">
+            <label
+              htmlFor="releasedAt"
+              className="block text-sm font-medium leading-6 text-gray-900"
+            >
+              Released At
+            </label>
+            <div className="mt-2">
+              <input
+                id="releasedAt"
+                type="date"
+                name="releasedAt"
+                className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                onChange={handleDateChange}
+                value={releasedAt ? releasedAt.toISOString().slice(0, 10) : ""}
+                placeholder=""
+              />
+            </div>
+          </div>
+        </div>
         <div className="col-span-full">
           <label
             htmlFor="description"

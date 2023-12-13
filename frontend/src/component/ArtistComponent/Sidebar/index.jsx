@@ -21,7 +21,11 @@ import { useSelector } from "react-redux";
 import { backend_url_img, server } from "../../../server";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { LibraryMusicOutlined, MusicNoteOutlined } from "@mui/icons-material";
+import {
+  AlbumOutlined,
+  LibraryMusicOutlined,
+  MusicNoteOutlined,
+} from "@mui/icons-material";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -180,9 +184,9 @@ const Sidebar = () => {
               Pages
             </Typography>
             <Item
-              title="Profile Form"
-              to="/profile-artist"
-              icon={<PersonOutlinedIcon />}
+              title="Your Albums"
+              to="/your-albums"
+              icon={<AlbumOutlined />}
               selected={selected}
               setSelected={setSelected}
             />

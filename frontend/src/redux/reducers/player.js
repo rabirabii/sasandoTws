@@ -4,6 +4,8 @@ const initialState = {
   currentSong: null,
   isPlaying: false,
   trackProgress: 0,
+  currentSongIndex: 0,
+  playlist: [],
 };
 
 const playerReducer = (state = initialState, action) => {
@@ -24,10 +26,32 @@ const playerReducer = (state = initialState, action) => {
         ...state,
         trackProgress: action.payload,
       };
-    case "TOGGLE_REPEAT": // Reducer for toggling repeat
+    case "SYNC_TRACK_PROGRESS": // New case to sync track progress
+      return {
+        ...state,
+        trackProgress: action.payload,
+      };
+    case "TOGGLE_REPEAT":
       return {
         ...state,
         isRepeated: !state.isRepeated,
+      };
+    case "PLAY_NEXT_SONG":
+      return {
+        ...state,
+        currentSongIndex:
+          state.currentSongIndex === state.playlist.length - 1
+            ? 0 // If at the end, loop back to the start
+            : state.currentSongIndex + 1,
+      };
+
+    case "PLAY_PREVIOUS_SONG":
+      return {
+        ...state,
+        currentSongIndex:
+          state.currentSongIndex === 0
+            ? state.playlist.length - 1 // If at the start, go to the last song
+            : state.currentSongIndex - 1,
       };
     default:
       return state;

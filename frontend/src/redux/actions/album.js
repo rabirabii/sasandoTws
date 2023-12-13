@@ -29,7 +29,7 @@ export const createAlbum = (newForm) => async (dispatch, payload) => {
 };
 
 // get All Products of a shop
-export const getAllAlbumShop = async (payload, dispatch) => {
+export const getAllAlbum = async (payload, dispatch) => {
   try {
     dispatch({
       type: "getAllAlbumArtistRequest",
@@ -51,7 +51,7 @@ export const getAllAlbumShop = async (payload, dispatch) => {
 };
 
 // Create song
-export const createSongAlbum = (newForm) => async (dispatch) => {
+export const createSongAlbum = (newForm, id) => async (dispatch) => {
   try {
     dispatch({
       type: "CreateSongAlbumRequest",
@@ -60,7 +60,7 @@ export const createSongAlbum = (newForm) => async (dispatch) => {
     const config = { headers: { "Content-Type": "multipart/form-data" } };
 
     const { data } = await axios.post(
-      `${server}/album/create-song-album`,
+      `${server}/album//create-song/${id}`,
       newForm,
       config
     );
@@ -71,6 +71,33 @@ export const createSongAlbum = (newForm) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "CreateSongAlbumError",
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// Get All Song of an Artist
+export const getAllAlbumsArtist = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "getAllAlbumsArtistRequest",
+    });
+
+    const { data } = await axios.get(
+      `http://localhost:5001/api/sasando/album/get-all-albums/${id}`
+    );
+
+    console.log("API Response:", data); // Log fetched Albums
+
+    // Dispatch success action with the fetched artist Albums directly
+    dispatch({
+      type: "getAllAlbumsArtistSuccess",
+      payload: data.albums, // Adjust the property based on your API response
+    });
+  } catch (error) {
+    console.error("Error fetching Albums:", error);
+    dispatch({
+      type: "getAllAlbumsArtistFailed",
       payload: error.response.data.message,
     });
   }

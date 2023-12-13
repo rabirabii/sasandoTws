@@ -12,17 +12,23 @@ import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import Like from "../Like";
 import { backend_url_img, backend_url_song, server } from "../../../server";
-import { setCurrentSong, togglePlayPause } from "../../../redux/actions/player";
+import {
+  setCurrentSong,
+  setTrackProgress,
+  togglePlayPause,
+} from "../../../redux/actions/player";
 import { Repeat, RepeatOneOutlined } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 const AudioPlayer = () => {
-  const [trackProgress, setTrackProgress] = useState(0);
+  // const [trackProgress, setTrackProgress] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const isPlaying = useSelector((state) => state.player.isPlaying);
   const currentSong = useSelector((state) => state.player.currentSong);
+  const trackProgress = useSelector((state) => state.player.trackProgress);
   const dispatch = useDispatch();
   const [repeat, setRepeat] = useState(false);
   const [volume, setVolume] = useState(0.5);
+
   const changeVolume = (value) => {
     audioRef.current.volume = value;
     setVolume(value);
@@ -47,17 +53,12 @@ const AudioPlayer = () => {
         }
       } else if (audioRef.current) {
         // Check if audioRef.current exists
-        setTrackProgress(audioRef.current.currentTime);
+        dispatch(setTrackProgress(audioRef.current.currentTime));
         audioRef?.current.duration && setDuration(audioRef.current.duration);
       } else {
         setTrackProgress(0);
       }
     }, [1000]);
-  };
-  // Function to handle repeat button click
-  const handleRepeat = () => {
-    setRepeatSong(!repeatSong);
-    setInitialPlayRequestSent(false); // Reset the state when repeat mode changes
   };
 
   const currentPercentage = duration
@@ -87,25 +88,27 @@ const AudioPlayer = () => {
     dispatch(setTrackProgress(value));
     setTrackProgress(audioRef.current.currentTime);
   };
-  // Count listener to the song and artist
-  const sendPlayRequest = async (songId) => {
+  // Function to send play request after 30 seconds
+  const sendPlayRequestAfterDelay = async (songId) => {
     try {
-      const response = await fetch(`${server}/song/play/${songId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          // Add any necessary headers
-        },
-        // Add body if needed
-      });
+      setTimeout(async () => {
+        const response = await fetch(`${server}/song/play/${songId}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            // Add any necessary headers
+          },
+          // Add body if needed
+        });
 
-      if (response.ok) {
-        // Request successful, handle accordingly
-        console.log("Song play request sent successfully!");
-      } else {
-        // Handle errors if needed
-        console.error("Failed to send song play request");
-      }
+        if (response.ok) {
+          // Request successful, handle accordingly
+          console.log("Song play request sent successfully after 30 seconds!");
+        } else {
+          // Handle errors if needed
+          console.error("Failed to send song play request");
+        }
+      }, 30000); // 30 seconds delay
     } catch (error) {
       console.error("Error sending song play request:", error);
       // Handle errors if needed
@@ -114,15 +117,47 @@ const AudioPlayer = () => {
   useEffect(() => {
     setInitialPlayRequestSent(false);
   }, [currentSong]);
+  useEffect(() => {
+    const savedSong = JSON.parse(localStorage.getItem("currentSong"));
+    if (savedSong) {
+      dispatch(setCurrentSong(savedSong));
+      dispatch(togglePlayPause());
+      const savedTrackProgress = savedSong.trackProgress || 0;
+      setTrackProgress(savedTrackProgress);
+      if (isFinite(savedTrackProgress)) {
+        audioRef.current.currentTime = savedTrackProgress;
+      }
+      if (savedSong.action === "play" && isFinite(savedTrackProgress)) {
+        audioRef.current.play();
+        startTimer();
+      }
+    }
+  }, []);
 
+  // Update the state and localStorage when the song changes
+  useEffect(() => {
+    if (currentSong) {
+      const newSongState = {
+        ...currentSong,
+        trackProgress,
+        action: isPlaying ? "play" : "pause",
+      };
+      localStorage.setItem("currentSong", JSON.stringify(newSongState));
+    }
+  }, [currentSong, trackProgress, isPlaying]);
+  const handleRepeat = () => {
+    setRepeat(!repeat);
+    setRepeatSong(false); // Reset repeat song state
+    setInitialPlayRequestSent(false); // Reset initial play request state
+  };
   const handleActions = () => {
     if (currentSong?.action === "play") {
       if (audioRef.current.paused) {
         audioRef.current.play();
-        setIsPlaying(true);
+        dispatch(togglePlayPause());
       } else {
         audioRef.current.pause();
-        setIsPlaying(false);
+        dispatch(togglePlayPause());
       }
     } else {
       dispatch(setCurrentSong({ ...currentSong, action: "play" }));
@@ -130,11 +165,11 @@ const AudioPlayer = () => {
         if (repeatSong) {
           audioRef.current.currentTime = 0;
         }
-        sendPlayRequest(currentSong?._id);
+        sendPlayRequestAfterDelay(currentSong?._id);
         setInitialPlayRequestSent(true);
       }
       audioRef.current.play();
-      setIsPlaying(true);
+      dispatch(togglePlayPause());
     }
   };
 
@@ -173,11 +208,7 @@ const AudioPlayer = () => {
                 <SkipPreviousIcon />
               </IconButton>
               <IconButton className={styles.play} onClick={handleActions}>
-                {currentSong?.action === "play" ? (
-                  <PauseIcon />
-                ) : (
-                  <PlayArrowIcon />
-                )}
+                {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
               </IconButton>
               <IconButton className={styles.next}>
                 <SkipNextIcon />
